@@ -20,7 +20,7 @@ export default class BcrCodeinsightsReport extends SfCommand<BcrCodeinsightsRepo
 
   public static readonly flags = {
     'report-file': Flags.file({
-      exists: true,
+      // exists: true,
       // eslint-disable-next-line sf-plugin/no-missing-messages
       summary: messages.getMessage('flags.report-file.summary'),
       required: true,

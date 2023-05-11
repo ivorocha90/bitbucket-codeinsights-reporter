@@ -1,4 +1,4 @@
-import { getFileContents } from '../utils';
+import { getFileContents, fileOrFolderExists } from '../utils';
 import { ReportEngineResult } from './types';
 
 // move to utils
@@ -8,6 +8,9 @@ export default async (fileLocation: string): Promise<ReportEngineResult[]> => {
     throw new Error('SF Code Analiser report file must be a JSON file');
   }
 
+  if (!(await fileOrFolderExists(fileLocation))) {
+    return []; // If file does not exist, assume we got an empty file (no violations)
+  }
   const fileContent = await getFileContents(fileLocation);
 
   try {
