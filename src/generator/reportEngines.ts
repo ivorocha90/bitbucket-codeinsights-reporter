@@ -46,7 +46,6 @@ const BITBUCKET_REPORT_ENGINE_TEMPLATES: InsightReportTemplate[] = [
       key: 'sfca.retirejs.report',
       title: 'RetireJS report',
       reporter: 'RetireJS',
-      logoUrl: '',
     },
   },
 ];
