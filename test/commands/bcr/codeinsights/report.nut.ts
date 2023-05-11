@@ -1,5 +1,5 @@
-import { execCmd, TestSession } from '@salesforce/cli-plugins-testkit';
-import { expect } from 'chai';
+import { /* execCmd, */ TestSession } from '@salesforce/cli-plugins-testkit';
+// import { expect } from 'chai';
 
 describe('bcr codeinsights report NUTs', () => {
   let session: TestSession;
