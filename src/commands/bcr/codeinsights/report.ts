@@ -54,6 +54,7 @@ export default class BcrCodeinsightsReport extends SfCommand<BcrCodeinsightsRepo
       required: false,
       multiple: true,
       options: [SupportedEngine.PMD, SupportedEngine.ESLINT_LWC, SupportedEngine.CPD, SupportedEngine.RETIRE_JS],
+      default: [],
     }),
   };
 
