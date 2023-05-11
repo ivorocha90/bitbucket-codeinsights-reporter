@@ -1,6 +1,6 @@
 # summary
 
-Takes the static code analysis results of the SFCA plugin and uploads them to a givem commit in Bitbucket, providing code reviewers additional insights into the code being reviewed.
+Takes the static code analysis results of SFCA plugin and uploads them to a givem commit in Bitbucket, providing code reviewers additional insights into the code being reviewed.
 
 # description
 
