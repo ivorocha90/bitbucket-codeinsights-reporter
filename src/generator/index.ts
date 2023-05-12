@@ -45,7 +45,7 @@ export default class Generator {
 
     // extract from the report results only those that belong to this engine (eg. 'pmd' or 'pmd-custom')
     this.sfcaReportEngineResults = sfcaReportResults.filter(
-      (reportFile) => reportFile.engine === this.engine || reportFile.engine + '-custom' === this.engine
+      (reportFile) => reportFile.engine === this.engine || reportFile.engine === this.engine + '-custom'
     );
 
     this.generateReport();
