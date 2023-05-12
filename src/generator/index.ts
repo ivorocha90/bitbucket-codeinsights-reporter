@@ -43,8 +43,10 @@ export default class Generator {
   public constructor(sfcaReportResults: ReportEngineResult[], engine: SupportedEngine) {
     this.engine = engine;
 
-    // extract from the report results only those that belong to this engine
-    this.sfcaReportEngineResults = sfcaReportResults.filter((reportFile) => reportFile.engine === this.engine);
+    // extract from the report results only those that belong to this engine (eg. 'pmd' or 'pmd-custom')
+    this.sfcaReportEngineResults = sfcaReportResults.filter(
+      (reportFile) => reportFile.engine === this.engine || reportFile.engine + '-custom' === this.engine
+    );
 
     this.generateReport();
   }
