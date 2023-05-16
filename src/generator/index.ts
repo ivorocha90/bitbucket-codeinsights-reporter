@@ -28,7 +28,7 @@ function createAnnotation(filePath: string, violation: Violation): RestSingleAdd
     line: violation.line,
     message: violation.message,
     severity: getNormalizedSeverity(violation.normalizedSeverity),
-    link: violation.url,
+    link: violation.url ? violation.url : null,
   };
   return annotation;
 }
