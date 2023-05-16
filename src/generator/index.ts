@@ -35,18 +35,16 @@ function createAnnotation(filePath: string, violation: Violation): RestSingleAdd
 
 export default class Generator {
   private sfcaReportEngineResults: ReportEngineResult[];
-  private engine: SupportedEngine;
+  private engines: string[];
 
   private annotations: RestSingleAddInsightAnnotationRequest[];
   private report: RestInsightReport;
 
-  public constructor(sfcaReportResults: ReportEngineResult[], engine: SupportedEngine) {
-    this.engine = engine;
+  public constructor(sfcaReportResults: ReportEngineResult[], engines: SupportedEngine[]) {
+    this.engines = engines;
 
     // extract from the report results only those that belong to this engine (eg. 'pmd' or 'pmd-custom')
-    this.sfcaReportEngineResults = sfcaReportResults.filter(
-      (reportFile) => reportFile.engine === this.engine || reportFile.engine === this.engine + '-custom'
-    );
+    this.sfcaReportEngineResults = sfcaReportResults.filter((reportFile) => this.engines.includes(reportFile.engine));
 
     this.generateReport();
   }
@@ -102,7 +100,7 @@ export default class Generator {
       }
     }
 
-    this.report = getReportForEngine(this.engine);
+    this.report = getReportForEngine(this.engines[0]);
     this.report.data = [
       { title: 'Files with violations', value: numFilesWithViolations, type: RestInsightReportDataType.NUMBER },
       { title: 'Total violations', value: violations, type: RestInsightReportDataType.NUMBER },

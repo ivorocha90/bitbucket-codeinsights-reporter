@@ -77,7 +77,7 @@ export default class BcrCodeinsightsReport extends SfCommand<BcrCodeinsightsRepo
     if (!flags['skip-engine-results'].includes(SupportedEngine.PMD)) {
       this.log('=== Analysing PMD results ===');
 
-      const pmdGenerator = new Generator(reportResults, SupportedEngine.PMD);
+      const pmdGenerator = new Generator(reportResults, [SupportedEngine.PMD, SupportedEngine.PMD_CUSTOM]);
       const reportData = pmdGenerator.getData();
       // this.log(JSON.stringify(reportData));
       await bitbucketClient.publishFullCodeInsightsReport(
@@ -92,7 +92,12 @@ export default class BcrCodeinsightsReport extends SfCommand<BcrCodeinsightsRepo
     if (!flags['skip-engine-results'].includes(SupportedEngine.ESLINT_LWC)) {
       this.log('=== Analysing ESLint results ===');
 
-      const eslintLwcGenerator = new Generator(reportResults, SupportedEngine.ESLINT_LWC);
+      const eslintLwcGenerator = new Generator(reportResults, [
+        SupportedEngine.ESLINT_LWC,
+        SupportedEngine.ESLINT,
+        SupportedEngine.ESLINT_LWC_CUSTOM,
+        SupportedEngine.ESLINT_CUSTOM,
+      ]);
       const reportData = eslintLwcGenerator.getData();
       // this.log(JSON.stringify(reportData));
       await bitbucketClient.publishFullCodeInsightsReport(
@@ -107,7 +112,7 @@ export default class BcrCodeinsightsReport extends SfCommand<BcrCodeinsightsRepo
     if (!flags['skip-engine-results'].includes(SupportedEngine.CPD)) {
       this.log('=== Analysing CPD results ===');
 
-      const cpdGenerator = new Generator(reportResults, SupportedEngine.CPD);
+      const cpdGenerator = new Generator(reportResults, [SupportedEngine.CPD]);
       const reportData = cpdGenerator.getData();
       // this.log(JSON.stringify(reportData));
       await bitbucketClient.publishFullCodeInsightsReport(
@@ -122,7 +127,7 @@ export default class BcrCodeinsightsReport extends SfCommand<BcrCodeinsightsRepo
     if (!flags['skip-engine-results'].includes(SupportedEngine.RETIRE_JS)) {
       this.log('=== Analysing RetireJS results ===');
 
-      const retireJsGenerator = new Generator(reportResults, SupportedEngine.RETIRE_JS);
+      const retireJsGenerator = new Generator(reportResults, [SupportedEngine.RETIRE_JS]);
       const reportData = retireJsGenerator.getData();
       // this.log(JSON.stringify(reportData));
       await bitbucketClient.publishFullCodeInsightsReport(
