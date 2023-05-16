@@ -10,7 +10,7 @@ Note: Please make sure when running the `sfdx scanner:run` to provide the flag `
 
 # flags.report-file.summary
 
-The SFCA result JSON file with violations normalized.
+The SFCA result JSON file with violations normalized. Accepts multiple files.
 
 # flags.commit-id.summary
 

@@ -20,6 +20,7 @@ export default class BcrCodeinsightsReport extends SfCommand<BcrCodeinsightsRepo
 
   public static readonly flags = {
     'report-file': Flags.file({
+      multiple: true,
       // exists: true,
       // eslint-disable-next-line sf-plugin/no-missing-messages
       summary: messages.getMessage('flags.report-file.summary'),
@@ -53,7 +54,7 @@ export default class BcrCodeinsightsReport extends SfCommand<BcrCodeinsightsRepo
       summary: messages.getMessage('flags.skip-engine-results.summary'),
       required: false,
       multiple: true,
-      options: [SupportedEngine.PMD, SupportedEngine.ESLINT_LWC, SupportedEngine.CPD, SupportedEngine.RETIRE_JS],
+      options: [SupportedEngine.PMD, SupportedEngine.ESLINT, SupportedEngine.CPD, SupportedEngine.RETIRE_JS],
       default: [],
     }),
   };
@@ -61,7 +62,7 @@ export default class BcrCodeinsightsReport extends SfCommand<BcrCodeinsightsRepo
   public async run(): Promise<BcrCodeinsightsReportResult> {
     const { flags } = await this.parse(BcrCodeinsightsReport);
 
-    const reportFilePath = flags['report-file'];
+    const reportFilePaths = flags['report-file'];
     const bitbucketProjectKey = flags['bitbucket-project-key'];
     const bitbucketRepositorySlug = flags['bitbucket-repository-slug'];
     const commitId = flags['commit-id'];
@@ -72,8 +73,8 @@ export default class BcrCodeinsightsReport extends SfCommand<BcrCodeinsightsRepo
       flags['bitbucket-auth-password']
     );
 
-    const reportResults: ReportEngineResult[] = await sfcaReader(reportFilePath);
-
+    const reportResults: ReportEngineResult[] = await sfcaReader(reportFilePaths);
+    this.log(JSON.stringify(reportResults));
     if (!flags['skip-engine-results'].includes(SupportedEngine.PMD)) {
       this.log('=== Analysing PMD results ===');
 
@@ -89,7 +90,7 @@ export default class BcrCodeinsightsReport extends SfCommand<BcrCodeinsightsRepo
       );
     }
 
-    if (!flags['skip-engine-results'].includes(SupportedEngine.ESLINT_LWC)) {
+    if (!flags['skip-engine-results'].includes(SupportedEngine.ESLINT)) {
       this.log('=== Analysing ESLint results ===');
 
       const eslintLwcGenerator = new Generator(reportResults, [
