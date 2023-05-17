@@ -74,13 +74,13 @@ export default class BcrCodeinsightsReport extends SfCommand<BcrCodeinsightsRepo
     );
 
     const reportResults: ReportEngineResult[] = await sfcaReader(reportFilePaths);
-    this.log(JSON.stringify(reportResults));
+
     if (!flags['skip-engine-results'].includes(SupportedEngine.PMD)) {
       this.log('=== Analysing PMD results ===');
 
       const pmdGenerator = new Generator(reportResults, [SupportedEngine.PMD, SupportedEngine.PMD_CUSTOM]);
       const reportData = pmdGenerator.getData();
-      // this.log(JSON.stringify(reportData));
+
       await bitbucketClient.publishFullCodeInsightsReport(
         bitbucketProjectKey,
         bitbucketRepositorySlug,
