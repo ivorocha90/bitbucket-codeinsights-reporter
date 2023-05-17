@@ -10,7 +10,8 @@ Messages.importMessagesDirectory(__dirname);
 const messages = Messages.loadMessages('bitbucket-codeinsights-reporter', 'bcr.codeinsights.report');
 
 export type BcrCodeinsightsReportResult = {
-  path: string;
+  result: string;
+  warnings: string[];
 };
 
 export default class BcrCodeinsightsReport extends SfCommand<BcrCodeinsightsReportResult> {
@@ -61,6 +62,7 @@ export default class BcrCodeinsightsReport extends SfCommand<BcrCodeinsightsRepo
 
   public async run(): Promise<BcrCodeinsightsReportResult> {
     const { flags } = await this.parse(BcrCodeinsightsReport);
+    const commandResults: string[] = [];
 
     const reportFilePaths = flags['report-file'];
     const bitbucketProjectKey = flags['bitbucket-project-key'];
@@ -88,6 +90,10 @@ export default class BcrCodeinsightsReport extends SfCommand<BcrCodeinsightsRepo
         reportData.report,
         reportData.annotations
       );
+
+      const message = `Created ${SupportedEngine.PMD} report with ${reportData.annotations.length}.`;
+      this.log(message);
+      commandResults.push(message);
     }
 
     if (!flags['skip-engine-results'].includes(SupportedEngine.ESLINT)) {
@@ -100,7 +106,7 @@ export default class BcrCodeinsightsReport extends SfCommand<BcrCodeinsightsRepo
         SupportedEngine.ESLINT_CUSTOM,
       ]);
       const reportData = eslintLwcGenerator.getData();
-      // this.log(JSON.stringify(reportData));
+
       await bitbucketClient.publishFullCodeInsightsReport(
         bitbucketProjectKey,
         bitbucketRepositorySlug,
@@ -108,6 +114,10 @@ export default class BcrCodeinsightsReport extends SfCommand<BcrCodeinsightsRepo
         reportData.report,
         reportData.annotations
       );
+
+      const message = `Created ${SupportedEngine.ESLINT} report with ${reportData.annotations.length}.`;
+      this.log(message);
+      commandResults.push(message);
     }
 
     if (!flags['skip-engine-results'].includes(SupportedEngine.CPD)) {
@@ -115,7 +125,7 @@ export default class BcrCodeinsightsReport extends SfCommand<BcrCodeinsightsRepo
 
       const cpdGenerator = new Generator(reportResults, [SupportedEngine.CPD]);
       const reportData = cpdGenerator.getData();
-      // this.log(JSON.stringify(reportData));
+
       await bitbucketClient.publishFullCodeInsightsReport(
         bitbucketProjectKey,
         bitbucketRepositorySlug,
@@ -123,6 +133,10 @@ export default class BcrCodeinsightsReport extends SfCommand<BcrCodeinsightsRepo
         reportData.report,
         reportData.annotations
       );
+
+      const message = `Created ${SupportedEngine.CPD} report with ${reportData.annotations.length}.`;
+      this.log(message);
+      commandResults.push(message);
     }
 
     if (!flags['skip-engine-results'].includes(SupportedEngine.RETIRE_JS)) {
@@ -130,7 +144,7 @@ export default class BcrCodeinsightsReport extends SfCommand<BcrCodeinsightsRepo
 
       const retireJsGenerator = new Generator(reportResults, [SupportedEngine.RETIRE_JS]);
       const reportData = retireJsGenerator.getData();
-      // this.log(JSON.stringify(reportData));
+
       await bitbucketClient.publishFullCodeInsightsReport(
         bitbucketProjectKey,
         bitbucketRepositorySlug,
@@ -138,10 +152,15 @@ export default class BcrCodeinsightsReport extends SfCommand<BcrCodeinsightsRepo
         reportData.report,
         reportData.annotations
       );
+
+      const message = `Created ${SupportedEngine.RETIRE_JS} report with ${reportData.annotations.length}.`;
+      this.log(message);
+      commandResults.push(message);
     }
 
     return {
-      path: '/Users/ivo.rocha/sf-development/bitbucket-codeinsights-reporter/src/commands/bcr/codeinsights/report.ts',
+      result: commandResults.join('; '),
+      warnings: [],
     };
   }
 }

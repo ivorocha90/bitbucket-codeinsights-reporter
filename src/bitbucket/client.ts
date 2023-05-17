@@ -155,23 +155,13 @@ export default class BitbucketServerClient {
     report: RestInsightReport,
     annotations: RestSingleAddInsightAnnotationRequest[]
   ): Promise<void> {
-    // eslint-disable-next-line no-console
-    console.log('  - Creating/Updating insight report of commit on Bitbucket');
     await this.createInsightReport(projectKey, repositorySlug, commitId, report.key, report);
-
-    // eslint-disable-next-line no-console
-    console.log('  - Deleting existing insight report annotation of commit on Bitbucket');
     await this.deleteAnnotationsFromInsightReport(projectKey, repositorySlug, commitId, report.key);
     if (annotations.length > 0) {
-      // eslint-disable-next-line no-console
-      console.log(`  - Publishing ${annotations.length} annotations on insight report`);
       const bulkAnnotationsBody: RestBulkAddInsightAnnotationsRequest = {
         annotations,
       };
       await this.addAnnotationsToInsightReport(projectKey, repositorySlug, commitId, report.key, bulkAnnotationsBody);
-    } else {
-      // eslint-disable-next-line no-console
-      console.log('  - No annotations to publish');
     }
   }
 }
