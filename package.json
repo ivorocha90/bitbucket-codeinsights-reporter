@@ -3,7 +3,7 @@
   "description": "[![NPM](https://img.shields.io/npm/v/bitbucket-codeinsights-reporter.svg?label=bitbucket-codeinsights-reporter)](https://www.npmjs.com/package/bitbucket-codeinsights-reporter) [![Downloads/week](https://img.shields.io/npm/dw/bitbucket-codeinsights-reporter.svg)](https://npmjs.org/package/bitbucket-codeinsights-reporter) [![License](https://img.shields.io/badge/License-BSD%203--Clause-brightgreen.svg)](https://raw.githubusercontent.com/salesforcecli/bitbucket-codeinsights-reporter/main/LICENSE.txt)",
   "version": "0.5.0",
   "dependencies": {
-    "@oclif/core": "^2.8.2",
+    "@oclif/core": "^2.9.3",
     "@salesforce/core": "^3.34.8",
     "@salesforce/kit": "^1.9.2",
     "@salesforce/sf-plugins-core": "^2.2.10",
